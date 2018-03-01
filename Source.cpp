@@ -34,8 +34,6 @@ int main(int arfc, char* argv[])
 			}
 		}
 
-
-
 		SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
 
 		SDL_RenderClear(renderer);
