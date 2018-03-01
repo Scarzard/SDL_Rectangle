@@ -1,4 +1,5 @@
 #include "SDL/include/SDL.h"
+#include <cstdbool>
 #pragma comment(lib, "SDL/libx86/SDL2.lib")
 #pragma comment(lib, "SDL/libx86/SDL2main.lib")
 
@@ -13,21 +14,32 @@ int main(int arfc, char* argv[])
 	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED |
 		SDL_RENDERER_PRESENTVSYNC);
 
-	SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
-	SDL_RenderClear(renderer);
-
 	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 	SDL_Rect rect = { 0, 0, 60, 40 };
 
-	SDL_RenderFillRect(renderer, &rect);
-	SDL_RenderPresent(renderer);
 
 	int x = 0;
 	int y = 0;
 
-	while (1)
+	bool isRunning = true;
+	SDL_Event event;
+
+	while (isRunning)
 	{
+		while (SDL_PollEvent(&event)) 
+		{
+			if(event.type == SDL_QUIT)
+			{
+				isRunning = false;
+			}
+		}
+
+
+
 		SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+
+		SDL_RenderClear(renderer);
+		
 		SDL_RenderFillRect(renderer, &rect);
 
 		if (x == 0 && rect.x <= 540) rect.x += 2;
