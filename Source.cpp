@@ -15,8 +15,7 @@ int main(int arfc, char* argv[])
 		SDL_RENDERER_PRESENTVSYNC);
 
 	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-	SDL_Rect rect = { 0, 0, 60, 40 };
-
+	SDL_Rect rect = { 110, 110, 60, 40 };
 
 	int x = 0;
 	int y = 0;
@@ -26,13 +25,8 @@ int main(int arfc, char* argv[])
 
 	while (isRunning)
 	{
-		while (SDL_PollEvent(&event)) 
-		{
-			if(event.type == SDL_QUIT)
-			{
-				isRunning = false;
-			}
-		}
+		
+		
 
 		SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
 
@@ -40,7 +34,7 @@ int main(int arfc, char* argv[])
 		
 		SDL_RenderFillRect(renderer, &rect);
 
-		if (x == 0 && rect.x <= 540) rect.x += 2;
+	/*	if (x == 0 && rect.x <= 540) rect.x += 2;
 		else x = 1;
 
 		if (x == 1 && rect.x >= 0) rect.x -= 2;
@@ -51,12 +45,38 @@ int main(int arfc, char* argv[])
 
 		if (y == 1 && rect.y >= 0) rect.y -= 2;
 		else y = 0;
+		*/
 
 		rect = { rect.x, rect.y, 60, 40 };
 		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 		SDL_RenderFillRect(renderer, &rect);
 		SDL_RenderPresent(renderer);
 
+		while (SDL_PollEvent(&event))
+		{
+			if (event.type == SDL_QUIT)
+			{
+				isRunning = false;
+			}
+			switch (event.type)
+			{
+			case SDL_KEYDOWN:
+				switch (event.key.keysym.sym) {
+				case SDLK_LEFT:
+					rect.x -= 10;
+					break;
+				case SDLK_RIGHT:
+					rect.x += 10;
+					break;
+				case SDLK_UP:
+					rect.y -= 10;
+					break;
+				case SDLK_DOWN:
+					rect.y += 10;
+					break;
+				}
+			}
+		}
 	}
 
 	SDL_DestroyRenderer(renderer);
