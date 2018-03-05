@@ -16,6 +16,7 @@ int main(int arfc, char* argv[])
 
 	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 	SDL_Rect rect = { 110, 110, 60, 40 };
+	SDL_Rect projectile = { 0, 0, 30, 20 };
 
 	int x = 0;
 	int y = 0;
@@ -25,8 +26,6 @@ int main(int arfc, char* argv[])
 
 	while (isRunning)
 	{
-		
-		
 
 		SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
 
@@ -74,8 +73,18 @@ int main(int arfc, char* argv[])
 				case SDLK_DOWN:
 					rect.y += 10;
 					break;
+				case SDLK_SPACE:
+					SDL_Rect projectile = { rect.x, rect.y, 30, 20 };
+					break;
 				}
 			}
+			
+			}
+			SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+			SDL_RenderFillRect(renderer, &projectile);
+			SDL_RenderPresent(renderer);
+			if (projectile.x <= 600) {
+				projectile.x += 100;
 		}
 	}
 
