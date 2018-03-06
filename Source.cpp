@@ -64,16 +64,6 @@ int main(int arfc, char* argv[])
 			projectile.x += 10;
 		}
 
-		if (rect.x < 0) rect.x = 0;
-
-		else if (rect.x > 540)rect.x = 540;
-		
-
-		else if (rect.y < 360)rect.y = 360;
-		
-
-		else if (rect.y = 0) rect.y = 0;
-		
 
 		SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
 		SDL_RenderClear(renderer);
