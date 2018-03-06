@@ -14,12 +14,11 @@ int main(int arfc, char* argv[])
 	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED |
 		SDL_RENDERER_PRESENTVSYNC);
 
-	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 	SDL_Rect rect = { 110, 110, 60, 40 };
-	SDL_Rect projectile = { 0, 0, 30, 20 };
 
-	int x = 0;
-	int y = 0;
+	SDL_Rect projectile;
+	projectile.h = 20;
+	projectile.w = 30;
 
 	bool isRunning = true;
 	SDL_Event event;
@@ -27,29 +26,10 @@ int main(int arfc, char* argv[])
 	while (isRunning)
 	{
 
-		SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
-
-		SDL_RenderClear(renderer);
 		
-		SDL_RenderFillRect(renderer, &rect);
-
-	/*	if (x == 0 && rect.x <= 540) rect.x += 2;
-		else x = 1;
-
-		if (x == 1 && rect.x >= 0) rect.x -= 2;
-		else x = 0;
-
-		if (y == 0 && rect.y <= 360) rect.y += 2;
-		else y = 1;
-
-		if (y == 1 && rect.y >= 0) rect.y -= 2;
-		else y = 0;
-		*/
 
 		rect = { rect.x, rect.y, 60, 40 };
-		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-		SDL_RenderFillRect(renderer, &rect);
-		SDL_RenderPresent(renderer);
+		
 
 		while (SDL_PollEvent(&event))
 		{
@@ -57,10 +37,10 @@ int main(int arfc, char* argv[])
 			{
 				isRunning = false;
 			}
-			switch (event.type)
+			if (event.type == SDL_KEYDOWN)
 			{
-			case SDL_KEYDOWN:
-				switch (event.key.keysym.sym) {
+				switch (event.key.keysym.sym)
+				 {
 				case SDLK_LEFT:
 					rect.x -= 10;
 					break;
@@ -74,20 +54,39 @@ int main(int arfc, char* argv[])
 					rect.y += 10;
 					break;
 				case SDLK_SPACE:
-					SDL_Rect projectile = { rect.x, rect.y, 30, 20 };
+					projectile.x = rect.x + 60;
+					projectile.y = rect.y + (rect.h / 2 - projectile.h / 2);
 					break;
 				}
 			}
-			
-			}
-			SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-			SDL_RenderFillRect(renderer, &projectile);
-			SDL_RenderPresent(renderer);
-			if (projectile.x <= 600) {
-				projectile.x += 100;
 		}
-	}
+		if (projectile.y <= 600) {
+			projectile.x += 10;
+		}
 
+		if (rect.x < 0) rect.x = 0;
+
+		else if (rect.x > 540)rect.x = 540;
+		
+
+		else if (rect.y < 360)rect.y = 360;
+		
+
+		else if (rect.y = 0) rect.y = 0;
+		
+
+		SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+		SDL_RenderClear(renderer);
+
+		
+		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+		SDL_RenderFillRect(renderer, &rect);
+
+		SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+		SDL_RenderFillRect(renderer, &projectile);
+		SDL_RenderPresent(renderer);
+		
+	}
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
