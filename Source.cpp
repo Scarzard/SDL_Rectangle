@@ -1,11 +1,11 @@
 #include "SDL/include/SDL.h"
-#include <cstdbool>
 #pragma comment(lib, "SDL/libx86/SDL2.lib")
 #pragma comment(lib, "SDL/libx86/SDL2main.lib")
 
 
 int main(int arfc, char* argv[])
 {
+	
 	SDL_Init(SDL_INIT_VIDEO);
 
 	SDL_Window *window = SDL_CreateWindow("Rectangle", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
@@ -26,10 +26,10 @@ int main(int arfc, char* argv[])
 	while (isRunning)
 	{
 		rect = { rect.x, rect.y, 60, 40 };
-		
+
 
 		while (SDL_PollEvent(&event))
- {
+		{
 			if (event.type == SDL_QUIT)
 			{
 				isRunning = false;
@@ -37,7 +37,7 @@ int main(int arfc, char* argv[])
 			if (event.type == SDL_KEYDOWN)
 			{
 				switch (event.key.keysym.sym)
-				 {
+				{
 				case SDLK_LEFT:
 					rect.x -= 10;
 					break;
@@ -56,30 +56,31 @@ int main(int arfc, char* argv[])
 					break;
 				}
 			}
+
+			if (rect.x > 540) rect.x = 540;
+
+			else if (rect.x < 0) rect.x = 0;
+
+			if (rect.y > 360) rect.y = 360;
+
+			else if (rect.y < 0) rect.y = 0;
+
+			if (projectile.y <= 600) {
+				projectile.x += 10;
+			}
+
+			SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+			SDL_RenderClear(renderer);
+
+
+			SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+			SDL_RenderFillRect(renderer, &rect);
+
+			SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+			SDL_RenderFillRect(renderer, &projectile);
+			SDL_RenderPresent(renderer);
+
 		}
-		if (rect.x > 540) rect.x = 540;
-
-		else if (rect.x < 0) rect.x = 0;
-
-		if (rect.y > 360) rect.y = 360;
-
-		else if (rect.y < 0) rect.y = 0;
-
-		if (projectile.y <= 600) {
-			projectile.x += 10;
-		}
-
-		SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
-		SDL_RenderClear(renderer);
-
-		
-		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-		SDL_RenderFillRect(renderer, &rect);
-
-		SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-		SDL_RenderFillRect(renderer, &projectile);
-		SDL_RenderPresent(renderer);
-		
 	}
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
