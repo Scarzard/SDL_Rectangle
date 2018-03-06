@@ -25,14 +25,11 @@ int main(int arfc, char* argv[])
 
 	while (isRunning)
 	{
-
-		
-
 		rect = { rect.x, rect.y, 60, 40 };
 		
 
 		while (SDL_PollEvent(&event))
-		{
+ {
 			if (event.type == SDL_QUIT)
 			{
 				isRunning = false;
@@ -60,10 +57,17 @@ int main(int arfc, char* argv[])
 				}
 			}
 		}
+		if (rect.x > 540) rect.x = 540;
+
+		else if (rect.x < 0) rect.x = 0;
+
+		if (rect.y > 360) rect.y = 360;
+
+		else if (rect.y < 0) rect.y = 0;
+
 		if (projectile.y <= 600) {
 			projectile.x += 10;
 		}
-
 
 		SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
 		SDL_RenderClear(renderer);
