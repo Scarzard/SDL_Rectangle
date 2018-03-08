@@ -1,12 +1,17 @@
 #include "SDL/include/SDL.h"
+#include "SDL_Image\include\SDL_image.h"
+
 #pragma comment(lib, "SDL/libx86/SDL2.lib")
 #pragma comment(lib, "SDL/libx86/SDL2main.lib")
+
+#pragma comment(lib, "SDL_Image/libx86/SDL2_image.lib")
 
 
 int main(int arfc, char* argv[])
 {
 	
 	SDL_Init(SDL_INIT_VIDEO);
+	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
 
 	SDL_Window *window = SDL_CreateWindow("Rectangle", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 		600, 400, SDL_WINDOW_OPENGL);
@@ -79,12 +84,14 @@ int main(int arfc, char* argv[])
 				}
 			}
 
+			//Velocity of movement
 			if (LKey == true) rect.x -= 10;
 			if (RKey == true) rect.x += 10;
 			if (UKey == true) rect.y -= 10;
 			if (DKey == true) rect.y += 10;
 
 			//Limits of movement
+
 			if (rect.x > 540) rect.x = 540;
 
 			else if (rect.x < 0) rect.x = 0;
@@ -108,9 +115,11 @@ int main(int arfc, char* argv[])
 
 		}
 	}
+
 	//Destroy resources
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
+	IMG_Quit();
 	SDL_Quit();
 
 	return 0;
