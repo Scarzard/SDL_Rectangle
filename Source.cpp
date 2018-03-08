@@ -21,42 +21,70 @@ int main(int arfc, char* argv[])
 	projectile.w = 30;
 
 	bool isRunning = true;
-	SDL_Event event;
+	bool LKey = false;
+	bool RKey = false;
+	bool UKey = false;
+	bool DKey = false;
 
+	SDL_Event event;
+	//Game Loop
 	while (isRunning)
 	{
 		rect = { rect.x, rect.y, 60, 40 };
 
-
+		//Events: Player movement
 		while (SDL_PollEvent(&event))
 		{
 			if (event.type == SDL_QUIT)
 			{
 				isRunning = false;
 			}
-			if (event.type == SDL_KEYDOWN)
+			else if (event.type == SDL_KEYDOWN)
 			{
 				switch (event.key.keysym.sym)
 				{
 				case SDLK_LEFT:
-					rect.x -= 10;
+					LKey = true;
 					break;
 				case SDLK_RIGHT:
-					rect.x += 10;
+					RKey = true;
 					break;
 				case SDLK_UP:
-					rect.y -= 10;
+					UKey = true;
 					break;
 				case SDLK_DOWN:
-					rect.y += 10;
-					break;
-				case SDLK_SPACE:
-					projectile.x = rect.x + 60;
-					projectile.y = rect.y + (rect.h / 2 - projectile.h / 2);
+					DKey = true;
 					break;
 				}
 			}
 
+		    else if (event.type == SDL_KEYUP)
+			{
+				switch (event.key.keysym.sym)
+				{
+				case SDLK_LEFT:
+					LKey = false;
+					break;
+				case SDLK_RIGHT:
+					RKey = false;
+					break;
+				case SDLK_UP:
+					UKey = false;
+					break;
+				case SDLK_DOWN:
+					DKey = false;
+					break;
+				case SDLK_SPACE:
+					break;
+				}
+			}
+
+			if (LKey == true) rect.x -= 10;
+			if (RKey == true) rect.x += 10;
+			if (UKey == true) rect.y -= 10;
+			if (DKey == true) rect.y += 10;
+
+			//Limits of movement
 			if (rect.x > 540) rect.x = 540;
 
 			else if (rect.x < 0) rect.x = 0;
@@ -65,10 +93,8 @@ int main(int arfc, char* argv[])
 
 			else if (rect.y < 0) rect.y = 0;
 
-			if (projectile.y <= 600) {
-				projectile.x += 10;
-			}
-
+			
+			//Renderers
 			SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
 			SDL_RenderClear(renderer);
 
@@ -82,6 +108,7 @@ int main(int arfc, char* argv[])
 
 		}
 	}
+	//Destroy resources
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
