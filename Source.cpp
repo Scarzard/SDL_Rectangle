@@ -16,8 +16,9 @@ int main(int arfc, char* argv[])
 	SDL_Window *window = SDL_CreateWindow("Rectangle", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 		600, 400, SDL_WINDOW_OPENGL);
 
-	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED |
-		SDL_RENDERER_PRESENTVSYNC);
+	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	SDL_Texture * texture;
+	SDL_Surface * surface = IMG_Load("ship.png");
 
 	SDL_Rect rect = { 110, 110, 60, 40 };
 
@@ -31,11 +32,13 @@ int main(int arfc, char* argv[])
 	bool UKey = false;
 	bool DKey = false;
 
+	float v = 0.1;
+
 	SDL_Event event;
 	//Game Loop
 	while (isRunning)
 	{
-		rect = { rect.x, rect.y, 60, 40 };
+		//rect = { rect.x, rect.y, 60, 40 };
 
 		//Events: Player movement
 		while (SDL_PollEvent(&event))
@@ -84,36 +87,37 @@ int main(int arfc, char* argv[])
 				}
 			}
 
-			//Velocity of movement
-			if (LKey == true) rect.x -= 10;
-			if (RKey == true) rect.x += 10;
-			if (UKey == true) rect.y -= 10;
-			if (DKey == true) rect.y += 10;
-
-			//Limits of movement
-
-			if (rect.x > 540) rect.x = 540;
-
-			else if (rect.x < 0) rect.x = 0;
-
-			if (rect.y > 360) rect.y = 360;
-
-			else if (rect.y < 0) rect.y = 0;
-
 			
-			//Renderers
-			SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
-			SDL_RenderClear(renderer);
-
-
-			SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-			SDL_RenderFillRect(renderer, &rect);
-
-			SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-			SDL_RenderFillRect(renderer, &projectile);
-			SDL_RenderPresent(renderer);
+			
 
 		}
+		//Velocity of movement
+		if (LKey == true) rect.x -= v;
+		if (RKey == true) rect.x += v;
+		if (UKey == true) rect.y -= v;
+		if (DKey == true) rect.y += v;
+
+		//Limits of movement
+
+		if (rect.x > 540) rect.x = 540;
+
+		else if (rect.x < 0) rect.x = 0;
+
+		if (rect.y > 360) rect.y = 360;
+
+		else if (rect.y < 0) rect.y = 0;
+		
+		//Renderers
+		SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+		SDL_RenderClear(renderer);
+
+
+		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+		SDL_RenderFillRect(renderer, &rect);
+
+		SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+		SDL_RenderFillRect(renderer, &projectile);
+		SDL_RenderPresent(renderer);
 	}
 
 	//Destroy resources
