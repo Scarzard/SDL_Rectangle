@@ -13,8 +13,7 @@ const int SCREEN_HEIGHT = 360;
 
 int main(int argc, char* argv[])
 {
-
-
+	//Initialiazation of resources that we will be using
 	SDL_Window* window = nullptr;
 	SDL_Renderer* renderer = nullptr;
 	SDL_Surface* surface = nullptr;
@@ -69,14 +68,14 @@ int main(int argc, char* argv[])
 	bool space = false;
 
 	Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
-
-	//sound = Mix_LoadWAV("Assets/xmultipl-114.wav");
-
 	Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
+	
 	laser = Mix_LoadWAV("Assets/xmultipl-115.wav");
 	music = Mix_LoadMUS("Assets/04_Into_the_Human_Body_Stage_1_.ogg");
 
 	Mix_PlayMusic(music, -1);
+
+	//Game loop
 	while (isRunning == true)
 	{
 		SDL_PollEvent(&event);
@@ -127,10 +126,11 @@ int main(int argc, char* argv[])
 			}
 			break;
 		}
-		if (up && rect.y != 0) rect.y -= 2;
-		if (down && rect.y != (SCREEN_HEIGHT - 50)) rect.y += 2;
-		if (left  && rect.x != 0) rect.x -= 2;
-		if (right && rect.x != (SCREEN_WIDTH - 50)) rect.x += 2;
+		//Conditions of movement
+		if (up && rect.y != 0) rect.y -= 4;
+		if (down && rect.y != (SCREEN_HEIGHT - 50)) rect.y += 4;
+		if (left  && rect.x != 0) rect.x -= 4;
+		if (right && rect.x != (SCREEN_WIDTH - 50)) rect.x += 4;
 		if (space) {
 			Mix_PlayChannel(-1, laser, 0);
 			projectile.x = rect.x + 60;
@@ -155,12 +155,12 @@ int main(int argc, char* argv[])
 	//Destroy resources
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
-
 	Mix_FreeChunk(laser);
 	Mix_FreeMusic(music);
+	Mix_CloseAudio();
 	IMG_Quit();
 	SDL_Quit();
-	Mix_CloseAudio();
+	
 
 	return 0;
 }
