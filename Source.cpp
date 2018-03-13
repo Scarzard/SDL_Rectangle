@@ -55,8 +55,6 @@ int main(int argc, char* argv[])
 	SDL_Rect projectile;
 	projectile.w = 60;
 	projectile.h = 45;
-	projectile.x = 0;
-	projectile.y = 0;
 
 
 	SDL_Event event;
@@ -138,7 +136,7 @@ int main(int argc, char* argv[])
 		}
 
 		if (projectile.x < SCREEN_WIDTH - 30)
-		projectile.x += 10;
+		projectile.x += 50;
 
 		SDL_RenderClear(renderer);
 
